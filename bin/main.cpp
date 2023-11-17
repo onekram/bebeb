@@ -24,9 +24,17 @@ int main(int argc, char** argv) {
 
 
     ArgumentParser::ArgParser parser("Program");
-    parser.AddStringArgument('e', "bebra").Default("bbaba");
-    parser.Parse(SplitString("app --bebra=bbc"));
-    std::cout << parser.GetStringValue("bebra");
+    std::string a;
+    std::string b;
+
+
+    parser.AddStringArgument("param1").MultiValue();
+    parser.AddStringArgument("param2").Default("veve");
+
+    parser.Parse(SplitString("app --param1=value1 --param1=vwvg"));
+    std::cout << parser.GetStringValue("param1", 1) << '\n';
+    std::cout << parser.GetStringValue("param2") << '\n';
+
 
 //    parser.AddIntArgument("N").MultiValue(1).Positional().StoreValues(values);
 //    parser.AddFlag("sum", "add args").StoreValue(opt.sum);

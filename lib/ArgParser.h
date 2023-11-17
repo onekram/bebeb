@@ -6,13 +6,11 @@
 #include "Argument.h"
 
 namespace ArgumentParser {
-
     struct Arguments {
         std::string programName;
         std::map<std::string, Argument*> listArguments;
         std::map<std::string, std::string> multiNamesParameters;
     };
-
     class ArgParser {
     private:
 
@@ -29,7 +27,7 @@ namespace ArgumentParser {
         bool CheckAddedArguments();
 
     public:
-        explicit ArgParser(std::string  name);
+        explicit ArgParser(const std::string& name);
 
         bool Parse(const std::vector<std::string>& args);
 
@@ -37,8 +35,13 @@ namespace ArgumentParser {
 
         Argument& AddStringArgument(char parameterNameFirst, const std::string &parameterNameSecond);
 
-        std::string GetStringValue(const std::string& name);
+        std::string GetStringValue(const std::string& name, int index = 0);
 
+        Argument& AddIntArgument(const std::string &parameterNameSecond);
+
+        Argument& AddIntArgument(char parameterNameFirst, const std::string &parameterNameSecond);
+
+        int GetIntValue(const std::string& name, int index = 0);
     };
 
 } // namespace ArgumentParser

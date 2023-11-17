@@ -6,7 +6,7 @@
 #include <utility>
 #include "Argument.h"
 
-ArgumentParser::ArgParser::ArgParser(std::string  name) : instanceName(std::move(name)) {}
+ArgumentParser::ArgParser::ArgParser(const std::string& name) : instanceName(name) {}
 
 std::string ArgumentParser::ArgParser::checkParameter(const std::string& str) {
     auto pos = str.rfind('-');
@@ -53,7 +53,6 @@ bool ArgumentParser::ArgParser::Parse(const std::vector<std::string> &args) {
     }
 
     arguments.programName = args[0];
-
     int i = 1;
     while(i < args.size()) {
         const std::string& el = args[i];
@@ -64,12 +63,10 @@ bool ArgumentParser::ArgParser::Parse(const std::vector<std::string> &args) {
         std::string valueStr;
         if (isNumeric(value)) {
             valueInt = checkValueInt(value);
-//            currentArguments.listArguments.insert({key, Argument(key).Default(valueInt)});
             arguments.listArguments.find(key)->second->Default(valueInt);
 
         } else {
             valueStr = value;
-//            currentArguments.listArguments.insert({key, Argument(key).Default(valueStr)});
             arguments.listArguments.find(key)->second->Default(valueStr);
 
         }
@@ -79,7 +76,6 @@ bool ArgumentParser::ArgParser::Parse(const std::vector<std::string> &args) {
 }
 
 Argument& ArgumentParser::ArgParser::AddStringArgument(const std::string& parameterNameSecond) {
-
     auto* arg = new Argument(parameterNameSecond);
     arguments.listArguments.insert({parameterNameSecond, arg});
 
@@ -88,7 +84,6 @@ Argument& ArgumentParser::ArgParser::AddStringArgument(const std::string& parame
 
 Argument& ArgumentParser::ArgParser::AddStringArgument(char parameterNameFirst,
                                                         const std::string& parameterNameSecond) {
-
     auto* arg = new Argument(parameterNameSecond);
     std::string s {parameterNameFirst};
     arguments.multiNamesParameters.insert({s, parameterNameSecond});
@@ -97,6 +92,27 @@ Argument& ArgumentParser::ArgParser::AddStringArgument(char parameterNameFirst,
     return *arg;
 }
 
-std::string ArgumentParser::ArgParser::GetStringValue(const std::string &name) {
-    return arguments.listArguments.find(name)->second->valueStr;
+std::string ArgumentParser::ArgParser::GetStringValue(const std::string &name, int index) {
+    return arguments.listArguments.find(name)->second->valueStr[index];
+}
+
+Argument& ArgumentParser::ArgParser::AddIntArgument(const std::string& parameterNameSecond) {
+    auto* arg = new Argument(parameterNameSecond);
+    arguments.listArguments.insert({parameterNameSecond, arg});
+
+    return *arg;
+}
+
+Argument& ArgumentParser::ArgParser::AddIntArgument(char parameterNameFirst,
+                                                         const std::string& parameterNameSecond) {
+    auto* arg = new Argument(parameterNameSecond);
+    std::string s {parameterNameFirst};
+    arguments.multiNamesParameters.insert({s, parameterNameSecond});
+    arguments.listArguments.insert({parameterNameSecond, arg});
+
+    return *arg;
+}
+
+int ArgumentParser::ArgParser::GetIntValue(const std::string &name, int index) {
+    return arguments.listArguments.find(name)->second->valueInt[index];
 }
