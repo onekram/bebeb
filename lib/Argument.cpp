@@ -16,49 +16,66 @@ Argument::Argument(const std::string& parameterNameFirst, const std::string&  pa
 
 Argument& Argument::Default(const std::string& value) {
     size_t size = valueStr.size();
-    if (!multiValue)
+    if (!multiValue) {
         if (size == 0)
             valueStr.push_back(value);
         else
             valueStr[0] = value;
-    else
+        filled = true;
+    } else {
         valueStr.push_back(value);
-    filled = true;
+        if (valueInt.size() >= minAmount)
+            filled = true;
+    }
 
     if (stored)
-        *storedValueStr[size] = value;
+        *storedValueStr = value;
+    if (storedVector)
+        storedValueVectorString->push_back(value);
     return *this;
 }
 
 Argument& Argument::Default(int value) {
     size_t size = valueInt.size();
-    if (!multiValue)
+    if (!multiValue) {
         if (size == 0)
             valueInt.push_back(value);
         else
             valueInt[0] = value;
-    else
+        filled = true;
+    } else {
         valueInt.push_back(value);
-    filled = true;
+        if (valueInt.size() >= minAmount)
+            filled = true;
+    }
 
     if (stored)
-        *storedValueInt[size] = value;
+        *storedValueInt = value;
+    if (storedVector)
+        storedValueVectorInt->push_back(value);
     return *this;
 }
 
 Argument& Argument::StoreValue(std::string& value) {
     stored = true;
-    storedValueStr.push_back(&value);
+    storedValueStr = &value;
     return *this;
 }
 
 Argument& Argument::StoreValue(int& value) {
     stored = true;
-    storedValueInt.push_back(&value);
+    storedValueInt = &value;
     return *this;
 }
 
-Argument &Argument::MultiValue() {
+Argument& Argument::StoreValues(std::vector<int>& values) {
+    storedVector = true;
+    storedValueVectorInt = &values;
+    return *this;
+}
+
+Argument &Argument::MultiValue(int min) {
     multiValue = true;
+    minAmount = min;
 }
 

@@ -11,11 +11,16 @@ private:
     std::string description;
     bool filled = false;
     bool stored = false;
+    bool storedVector = false;
 
-    std::vector<std::string*> storedValueStr;
-    std::vector<int*> storedValueInt;
+    std::string* storedValueStr;
+    int* storedValueInt;
+    std::vector<int>* storedValueVectorInt;
+    std::vector<std::string>* storedValueVectorString;
+
 
     bool multiValue = false;
+    int minAmount;
 
 public:
     std::vector<std::string> valueStr;
@@ -33,8 +38,9 @@ public:
 
     Argument& StoreValue(int &value);
 
-    Argument& MultiValue();
+    Argument& MultiValue(int min = 0);
 
+    Argument &StoreValues(std::vector<int> &values);
 };
 
 

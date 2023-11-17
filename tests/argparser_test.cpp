@@ -88,36 +88,36 @@ TEST(ArgParserTestSuite, IntTest) {
 }
 
 
-//TEST(ArgParserTestSuite, MultiValueTest) {
-//    ArgParser parser("My Parser");
-//    std::vector<int> int_values;
-//    parser.AddIntArgument('p', "param1").MultiValue().StoreValues(int_values);
-//
-//    ASSERT_TRUE(parser.Parse(SplitString("app --param1=1 --param1=2 --param1=3")));
-//    ASSERT_EQ(parser.GetIntValue("param1", 0), 1);
-//    ASSERT_EQ(int_values[1], 2);
-//    ASSERT_EQ(int_values[2], 3);
-//}
+TEST(ArgParserTestSuite, MultiValueTest) {
+    ArgParser parser("My Parser");
+    std::vector<int> int_values;
+    parser.AddIntArgument('p', "param1").MultiValue().StoreValues(int_values);
 
-//
-//TEST(ArgParserTestSuite, MinCountMultiValueTest) {
-//    ArgParser parser("My Parser");
-//    std::vector<int> int_values;
-//    size_t MinArgsCount = 10;
-//    parser.AddIntArgument('p', "param1").MultiValue(MinArgsCount).StoreValues(int_values);
-//
-//    ASSERT_FALSE(parser.Parse(SplitString("app --param1=1 --param1=2 --param1=3")));
-//}
-//
-//
-//TEST(ArgParserTestSuite, FlagTest) {
-//    ArgParser parser("My Parser");
-//    parser.AddFlag('f', "flag1");
-//
-//    ASSERT_TRUE(parser.Parse(SplitString("app --flag1")));
-//    ASSERT_TRUE(parser.GetFlag("flag1"));
-//}
-//
+    ASSERT_TRUE(parser.Parse(SplitString("app --param1=1 --param1=2 --param1=3")));
+    ASSERT_EQ(parser.GetIntValue("param1", 0), 1);
+    ASSERT_EQ(int_values[1], 2);
+    ASSERT_EQ(int_values[2], 3);
+}
+
+
+TEST(ArgParserTestSuite, MinCountMultiValueTest) {
+    ArgParser parser("My Parser");
+    std::vector<int> int_values;
+    size_t MinArgsCount = 10;
+    parser.AddIntArgument('p', "param1").MultiValue(MinArgsCount).StoreValues(int_values);
+
+    ASSERT_FALSE(parser.Parse(SplitString("app --param1=1 --param1=2 --param1=3")));
+}
+
+
+TEST(ArgParserTestSuite, FlagTest) {
+    ArgParser parser("My Parser");
+    parser.AddFlag('f', "flag1");
+
+    ASSERT_TRUE(parser.Parse(SplitString("app --flag1")));
+    ASSERT_TRUE(parser.GetFlag("flag1"));
+}
+
 //
 //TEST(ArgParserTestSuite, FlagsTest) {
 //    ArgParser parser("My Parser");
